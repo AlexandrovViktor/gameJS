@@ -19,6 +19,7 @@ juk[0] = {
 let timer = 0;
 let dvij;
 let score = 0;
+let life = 3;
 
 // Клавиатура
 
@@ -66,6 +67,31 @@ function game() {
 
 function update() {
   timer++;
+
+  if (juk[0].x >= 1000) {
+    juk[0].x = 10 * box;
+    juk[0].y = 17 * box;
+    life -= 1;
+  }
+
+  if (juk[0].y >= 1000) {
+    juk[0].x = 10 * box;
+    juk[0].y = 17 * box;
+    life -= 1;
+  }
+
+  if (juk[0].x <= 1) {
+    juk[0].x = 10 * box;
+    juk[0].y = 17 * box;
+    life -= 1;
+  }
+
+  if (juk[0].y <= 1) {
+    juk[0].x = 10 * box;
+    juk[0].y = 17 * box;
+    life -= 1;
+  }
+
   if (timer % 100 == 0) {
     foodr.push({
       x: Math.floor(Math.random() * 20 + 1) * box,
@@ -82,7 +108,7 @@ function update() {
     });
   }
 
-  if (timer % 20 == 0) {
+  if (timer % 50 == 0) {
     foodh.push({
       x: Math.floor(Math.random() * 20 + 1) * box,
       y: -box,
@@ -90,7 +116,7 @@ function update() {
     });
   }
 
-  if (timer % 20 == 0) {
+  if (timer % 50 == 0) {
     foodb.push({
       x: Math.floor(Math.random() * 20 + 1) * box,
       y: -box,
@@ -176,6 +202,10 @@ function update() {
   juk.unshift(newjuk);
 
   if (score <= 0) score = 0;
+  if (life <= 0) {
+    life = 3;
+    score = 0;
+  }
 }
 
 // ЗАГРУЗКА
@@ -205,7 +235,11 @@ function render() {
 
   gtx.fillStyle = "white";
   gtx.font = "70px Arial";
-  gtx.fillText(score, 50, 100);
+  gtx.fillText(score, 50, 70);
+
+  gtx.fillStyle = "red";
+  gtx.font = "70px Arial";
+  gtx.fillText(life, 50, 130);
 }
 
 // Для браузеров
